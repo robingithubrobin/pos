@@ -310,7 +310,7 @@ namespace LL.POS
                 {
                     sql.Append(" where item_no like @itemNo or item_subno like @itemNo or item_name like @itemNo or item_clsno like @itemNo or item_brand like @itemNo");
 
-                    reader = base.dbPosItem.QueryReader(sql.ToString(), new SQLiteParameter[] { 
+                    reader = base.dbPosItem.QueryReader(sql.ToString(), new SQLiteParameter[] {
                        new SQLiteParameter("@itemNo", "%" + itemNo.Trim() + "%")
                     });
                 }
@@ -860,7 +860,7 @@ namespace LL.POS
                 command.Parameters.Add(new SQLiteParameter("@flow_no", flowNo));
                 command.ExecuteNonQuery();
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 throw exception;
             }
@@ -1166,9 +1166,9 @@ namespace LL.POS
         {
             t_operator item = null;
             string sql = "select * from t_operator where oper_name=@operName and oper_pwd=@operPwd and (branch_id=@branchId or rtrim(ltrim(branch_id))='ALL')";
-            SQLiteDataReader reader = base.dbPosItem.QueryReader(sql, new SQLiteParameter[] { 
-                new SQLiteParameter("@operName", operName.Trim()), 
-                new SQLiteParameter("@operPwd", operPwd.Trim()), 
+            SQLiteDataReader reader = base.dbPosItem.QueryReader(sql, new SQLiteParameter[] {
+                new SQLiteParameter("@operName", operName.Trim()),
+                new SQLiteParameter("@operPwd", operPwd.Trim()),
                 new SQLiteParameter("@branchId", branchId.Trim()) });
             if (!reader.Read())
             {
@@ -1211,7 +1211,7 @@ namespace LL.POS
             string sql = "select * from t_operator where (oper_id like @operId and branch_id = @branchId) or (oper_id like @operId and ltrim(rtrim(branch_id))='ALL')";
             try
             {
-                SQLiteDataReader reader = base.dbPosItem.QueryReader(sql, new SQLiteParameter[] { 
+                SQLiteDataReader reader = base.dbPosItem.QueryReader(sql, new SQLiteParameter[] {
                 new SQLiteParameter("@operId", "%" + operId.Trim() + "%"),
                 new SQLiteParameter("@branchId", branchId.Trim())});
                 while (reader.Read())
@@ -1402,7 +1402,7 @@ namespace LL.POS
             }
             try
             {
-                SQLiteDataReader reader = base.dbPosItem.QueryReader(sql, new SQLiteParameter[] { 
+                SQLiteDataReader reader = base.dbPosItem.QueryReader(sql, new SQLiteParameter[] {
                 comm });
                 while (reader.Read())
                 {
@@ -1470,6 +1470,8 @@ namespace LL.POS
             return base.dbPosItem.GetData(builder.ToString());
         }
         #endregion
+
+
         /// <summary>
         /// 更新VIP消费信息
         /// </summary>
@@ -1483,9 +1485,9 @@ namespace LL.POS
                 StringBuilder builder = new StringBuilder();
                 builder.Append("insert into t_vip_acc_list(flow_no,card_id,balance,total_spending,all_score,use_score,surplus_score,oper_date)");
                 builder.AppendFormat("values('{0}','{1}',{2},{3},{4},{5},{6},datetime('now','localtime'))",
-                        new object[] 
-                        { 
-                            flowNo, vipInfo.vip_card_id, vipInfo.balance, vipInfo.total_spending, vipInfo.all_score, vipInfo.use_score, vipInfo.surplus_score 
+                        new object[]
+                        {
+                            flowNo, vipInfo.vip_card_id, vipInfo.balance, vipInfo.total_spending, vipInfo.all_score, vipInfo.use_score, vipInfo.surplus_score
                         }
                     );
                 new SQLiteCommand(builder.ToString(), base.dbPosSale).ExecuteNonQuery();
@@ -1774,6 +1776,7 @@ namespace LL.POS
             return result;
         }
         #endregion
+
         #region 交易查询 后期需要添加联网查询
 
         #region 支付流水信息查询
@@ -2189,6 +2192,7 @@ namespace LL.POS
             return table;
         }
         #endregion
+
         #region Sale库查询数据公共方法
 
         /// <summary>
@@ -2445,9 +2449,9 @@ namespace LL.POS
                 "t_operator,t_product_food,t_product_food_barcode,t_product_food_type,t_rm_plan_detail," +
                 "t_rm_plan_master,t_product_food_kc,t_product_food_jg FROM t_handle WHERE handle_id = 1";
                 //DataTable data = base.dbPosItem.GetData(sql);
-                String errorMessage=String.Empty;
+                String errorMessage = String.Empty;
                 DataTable dt = DbUtilitySQLite.Instance.GetDataTable(Gattr.ITEM_DB_FILE_NAME, sql, null, ref errorMessage);
-                if (dt.Rows.Count==1)
+                if (dt.Rows.Count == 1)
                 {
                     _t_handle = new t_handle();
                     _t_handle.t_base_code = ExtendUtility.Instance.ParseToDecimal(dt.Rows[0]["t_base_code"]);
@@ -2498,7 +2502,7 @@ namespace LL.POS
                 parameters[9] = new SQLiteParameter("@t_product_food_jg", _t_handle.t_product_food_jg);
                 parameters[10] = new SQLiteParameter("@t_product_food_kc", _t_handle.t_product_food_kc);
                 String errorMessage = String.Empty;
-                if (DbUtilitySQLite.Instance.ExecuteSql(Gattr.ITEM_DB_FILE_NAME,sql,parameters, ref errorMessage) == 1)
+                if (DbUtilitySQLite.Instance.ExecuteSql(Gattr.ITEM_DB_FILE_NAME, sql, parameters, ref errorMessage) == 1)
                 {
                     return true;
                 }
@@ -2527,7 +2531,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
-        public bool InsertClsData(DataTable table,decimal del,ref decimal rid)
+        public bool InsertClsData(DataTable table, decimal del, ref decimal rid)
         {
             String sqlI = "";
             String sqlD = "";
@@ -2546,8 +2550,8 @@ namespace LL.POS
                 transList = new List<SqlParaEntity>();
                 //if (del == -1)
                 //{
-                    _current = new SqlParaEntity() { parameters = null, Sql = "delete from t_product_food_type" };
-                    transList.Add(_current);
+                _current = new SqlParaEntity() { parameters = null, Sql = "delete from t_product_food_type" };
+                transList.Add(_current);
                 //}
                 foreach (DataRow dr in table.Rows)
                 {
@@ -2556,17 +2560,17 @@ namespace LL.POS
                     parameters[1] = new SQLiteParameter("@typename", ExtendUtility.Instance.ParseToString(StringUtility.Instance.StringTrim(dr["item_clsname"])));
                     parameters[2] = new SQLiteParameter("@parent", ExtendUtility.Instance.ParseToString(StringUtility.Instance.StringTrim(dr["cls_parent"])));
                     parameters[3] = new SQLiteParameter("@last_refresh_time", date);
-                    switch(dr["rtype"].ToString())
+                    switch (dr["rtype"].ToString())
                     {
-                            //插入状态
+                        //插入状态
                         case "I":
                             _current = new SqlParaEntity() { Sql = sqlI, parameters = parameters };
                             break;
-                            //更新状态
+                        //更新状态
                         case "U":
                             _current = new SqlParaEntity() { Sql = sqlU, parameters = parameters };
                             break;
-                            //删除状态
+                        //删除状态
                         case "D":
                             _current = new SqlParaEntity() { Sql = sqlD, parameters = new SQLiteParameter[] { new SQLiteParameter("@typeno", StringUtility.Instance.StringTrim(dr["item_clsno"])) } };
                             break;
@@ -2601,7 +2605,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
-        public bool InsertBarCodeData(DataTable table,decimal del,ref decimal rid)
+        public bool InsertBarCodeData(DataTable table, decimal del, ref decimal rid)
         {
             SQLiteParameter[] parameters = null;
             SQLiteParameter[] parametersD = null;
@@ -2685,7 +2689,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
-        public bool InsertItemData(DataTable table,decimal del,ref decimal rid)
+        public bool InsertItemData(DataTable table, decimal del, ref decimal rid)
         {
             String sqlI = "";
             String sqlU = "";
@@ -2715,7 +2719,7 @@ namespace LL.POS
                     "build_date=@build_date,lastchange_time=@lastchange_time," +
                     "main_supcust=@main_supcust,num2=@num2,status=@status,num3=@num3, " +
                     "change_price=@change_price,vip_acc_flag=@vip_acc_flag," +
-                    "min_qty=@min_qty,max_qty=@max_qty,"+
+                    "min_qty=@min_qty,max_qty=@max_qty," +
                     "vip_acc_num=@vip_acc_num,scheme_price=@scheme_price where item_no=@item_no";
                 sqlD = "delete t_product_food where item_no=@item_no";
                 transList = new List<SqlParaEntity>();
@@ -2798,7 +2802,7 @@ namespace LL.POS
                 LoggerHelper.Log("MsmkLogger", "InsertItemData--->>>>" + sqlex.ToString(), LogEnum.ExceptionLog);
             }
             catch (Exception ex)
-           {
+            {
                 LoggerHelper.Log("MsmkLogger", "InsertItemData--->>>>" + ex.ToString(), LogEnum.ExceptionLog);
             }
             return isok;
@@ -2808,7 +2812,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table">组合商品信息</param>
         /// <returns></returns>
-        public bool InsertItemComb(DataTable table,decimal del,ref decimal rid)
+        public bool InsertItemComb(DataTable table, decimal del, ref decimal rid)
         {
             String sqlI = "";
             String sqlD = "";
@@ -2879,7 +2883,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
-        public bool InsertCashierData(DataTable table,decimal del,ref decimal rid)
+        public bool InsertCashierData(DataTable table, decimal del, ref decimal rid)
         {
             String sqlI = "";
             String sqlU = "";
@@ -2898,7 +2902,7 @@ namespace LL.POS
                        "branch_id=@branch_id,last_date=@last_date,oper_flag=@oper_flag,group_id=@group_id,cash_grant=@cash_grant,discount_rate=@discount_rate where oper_id=@oper_id";
                 sqlD = "delete from t_operator where oper_id=@oper_id";
                 transList = new List<SqlParaEntity>();
-                if (del== -1)
+                if (del == -1)
                 {
                     _current = new SqlParaEntity() { parameters = null, Sql = "delete from t_operator" };
                     transList.Add(_current);
@@ -2961,7 +2965,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
-        public bool InsertBaseTypeData(DataTable table,decimal del,ref decimal rid)
+        public bool InsertBaseTypeData(DataTable table, decimal del, ref decimal rid)
         {
             String sqlI = "";
             String sqlU = "";
@@ -3007,7 +3011,7 @@ namespace LL.POS
 
                     if (ExtendUtility.Instance.ParseToDecimal(dr["rid"]) > rid)
                     {
-                       rid = ExtendUtility.Instance.ParseToDecimal(dr["rid"]);
+                        rid = ExtendUtility.Instance.ParseToDecimal(dr["rid"]);
                     }
                 }
                 isok = DbUtilitySQLite.Instance.ExecuteSqlsByTrans(Gattr.ITEM_DB_FILE_NAME, transList, ref errorMessage) > 0 ? true : false;
@@ -3031,7 +3035,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
-        public bool InsertBaseData(DataTable table,decimal del,ref decimal rid)
+        public bool InsertBaseData(DataTable table, decimal del, ref decimal rid)
         {
             String sqlI = "";
             String sqlU = "";
@@ -3345,7 +3349,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table">价格信息数据</param>
         /// <returns>成功true失败false</returns>
-        public bool UpdateItemPrice(DataTable table,ref decimal rid)
+        public bool UpdateItemPrice(DataTable table, ref decimal rid)
         {
             String sql = "";
             SQLiteParameter[] parameters = null;
@@ -3405,7 +3409,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table">库存信息数据</param>
         /// <returns>成功true失败false</returns>
-        public bool UpdateItemStock(DataTable table,ref decimal rid)
+        public bool UpdateItemStock(DataTable table, ref decimal rid)
         {
             String sql = "";
             SQLiteParameter[] parameters = null;
@@ -3563,7 +3567,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table">促销计划信息</param>
         /// <returns>成功TRUE失败FALSE</returns>
-        public bool InsertPlanMaster(DataTable table,decimal del,ref decimal rid)
+        public bool InsertPlanMaster(DataTable table, decimal del, ref decimal rid)
         {
             String sqlI = "";
             String sqlU = "";
@@ -3579,7 +3583,7 @@ namespace LL.POS
                 sqlI = "insert into t_rm_plan_master(plan_no,plan_name,plan_memo,begin_date,end_date,week,vip_type,oper_date,oper_man,confirm_date,confirm_man,stop_date,stop_man,approve_flag,rule_no,range_flag) values (@plan_no,@plan_name,@plan_memo,@begin_date,@end_date,@week,@vip_type,@oper_date,@oper_man,@confirm_date,@confirm_man,@stop_date,@stop_man,@approve_flag,@rule_no,@range_flag)"; ;
                 sqlU = "update t_rm_plan_master set plan_name=@plan_name,plan_memo=@plan_memo,begin_date=@begin_date,end_date=@end_date," +
                         "week=@week,vip_type=@vip_type,oper_date=@oper_date,oper_man=@oper_man,confirm_date=@confirm_date,confirm_man=@confirm_man," +
-                        "stop_date=@stop_date,stop_man=@stop_man,approve_flag=@approve_flag,rule_no=@rule_no,range_flagrange_flag=@range_flagrange_flag "+
+                        "stop_date=@stop_date,stop_man=@stop_man,approve_flag=@approve_flag,rule_no=@rule_no,range_flagrange_flag=@range_flagrange_flag " +
                         "WHERE plan_no=@plan_no";
                 sqlD = "delete from t_rm_plan_master where plan_no=@plan_no";
                 transList = new List<SqlParaEntity>();
@@ -3650,7 +3654,7 @@ namespace LL.POS
         /// </summary>
         /// <param name="table">促销详细信息</param>
         /// <returns>成功TRUE失败FALSE</returns>
-        public bool InsertPlanDetail(DataTable table,decimal del,ref decimal rid)
+        public bool InsertPlanDetail(DataTable table, decimal del, ref decimal rid)
         {
             String sqlI = "";
             String sqlU = "";
@@ -4015,12 +4019,12 @@ namespace LL.POS
         /// <param name="sumAmt"></param>
         /// <param name="errMsg"></param>
         /// <returns></returns>
-        public bool InsertAccountRecord(DateTime dtStart, DateTime dtEnd, decimal sumAmt,decimal sumMoney, out string errMsg)
+        public bool InsertAccountRecord(DateTime dtStart, DateTime dtEnd, decimal sumAmt, decimal sumMoney, out string errMsg)
         {
             try
             {
                 errMsg = "";
-                SQLiteCommand command = new SQLiteCommand("INSERT INTO t_rm_pos_account(branch_no,pos_id,oper_id,oper_date,start_time,end_time,sale_amt,hand_amt,com_flag)  VALUES ('" + Gattr.BranchNo + "','" + Gattr.PosId + "','" + Gattr.OperId + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','" + dtStart.ToString("yyyy-MM-dd HH:mm:ss") + "','" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss") + "'," + sumAmt.ToString() + ","+sumMoney.ToString()+", '0') ", base.dbPosSale);
+                SQLiteCommand command = new SQLiteCommand("INSERT INTO t_rm_pos_account(branch_no,pos_id,oper_id,oper_date,start_time,end_time,sale_amt,hand_amt,com_flag)  VALUES ('" + Gattr.BranchNo + "','" + Gattr.PosId + "','" + Gattr.OperId + "','" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "','" + dtStart.ToString("yyyy-MM-dd HH:mm:ss") + "','" + dtEnd.ToString("yyyy-MM-dd HH:mm:ss") + "'," + sumAmt.ToString() + "," + sumMoney.ToString() + ", '0') ", base.dbPosSale);
                 command.ExecuteNonQuery();
                 command.Dispose();
                 command = null;

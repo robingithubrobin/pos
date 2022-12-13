@@ -1,5 +1,5 @@
 ﻿
-namespace LL.POS 
+namespace LL.POS
 {
     using System;
     using System.Data;
@@ -148,7 +148,7 @@ namespace LL.POS
                                "PRIMARY KEY (pay_way ASC,pay_flag ASC));";
 
                         this._dbPosItem.ExecuteSql(sql);
-                       
+
                     }
                     catch (SQLiteException exception)
                     {
@@ -260,7 +260,7 @@ namespace LL.POS
                         command = new SQLiteCommand(sql, this._dbPosSale);
                         command.ExecuteNonQuery();
                     }
-                    catch (SQLiteException )
+                    catch (SQLiteException)
                     {
 
                     }

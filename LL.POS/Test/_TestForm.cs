@@ -35,11 +35,11 @@ namespace LL.POS
         {
             if (Gfunc.InitSystem() == 1)
             {
-                this.tbText.Text = 
-                                Gattr.BranchNo +" = 分支\r\n" +
-                                Gattr.PosId + " = PosId\r\n" + 
+                this.tbText.Text =
+                                Gattr.BranchNo + " = 分支\r\n" +
+                                Gattr.PosId + " = PosId\r\n" +
                                 Gattr.WebPosServicePath + " = serviceFileName \r\n" +
-                                Gattr.HttpAddress ;
+                                Gattr.HttpAddress;
             }
         }
 

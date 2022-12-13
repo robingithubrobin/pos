@@ -81,7 +81,7 @@ namespace LL.POS.PService
             pay.flow_id = 1;
             pay.flow_no = "0041408160001";
             pay.memo = "tetst";
-            pay.oper_date = ExtendUtility.Instance.ParseToDateTime(System.DateTime.Now.ToShortDateString());
+            pay.oper_date = ExtendUtility.Instance.ParseToDateTime(System.DateTime.Now.ToShortDateString()).ToString();
             pay.oper_id = "1020";
             pay.pay_amount = 150;
             pay.pay_name = "人民币";
